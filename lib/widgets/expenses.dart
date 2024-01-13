@@ -25,9 +25,22 @@ class _ExpensesState extends State<Expenses> {
         category: Category.travel),
   ];
 
+  void _openAddExpenseOverlay() {
+    showModalBottomSheet(
+      context: context,
+      builder: (ctx) => const Text('Hello there'),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: const Color.fromARGB(199, 31, 37, 217),
+          actions: [
+            IconButton(
+                onPressed: _openAddExpenseOverlay, icon: const Icon(Icons.add))
+          ]),
       body: Column(
         children: [
           const Text('the Chart Text'),
