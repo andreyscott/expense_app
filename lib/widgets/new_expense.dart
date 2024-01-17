@@ -15,6 +15,7 @@ class _NewExpenseState extends State<NewExpense> {
   final _amountController = TextEditingController();
 
   DateTime? _selectedDate;
+  Category _selectedCategory = Category.leisure;
 
   void _presentDatePicker() async {
     final now = DateTime.now();
@@ -80,21 +81,44 @@ class _NewExpenseState extends State<NewExpense> {
               ))
             ],
           ),
-          Row(
-            children: [
-              TextButton(
+          const SizedBox(
+            height: 15,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                DropdownButton(
+                    value: _selectedCategory,
+                    items: Category.values
+                        .map((category) => DropdownMenuItem(
+                              value: category,
+                              child: Text(category.name.toUpperCase()),
+                            ))
+                        .toList(),
+                    onChanged: (value) {
+                      if (value == null) {
+                        return;
+                      }
+                      setState(() {
+                        _selectedCategory = value;
+                      });
+                    }),
+                const Spacer(),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel')),
+                ElevatedButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    print(_titleController.text);
+                    print(_amountController.text);
                   },
-                  child: const Text('Cancel')),
-              ElevatedButton(
-                onPressed: () {
-                  print(_titleController.text);
-                  print(_amountController.text);
-                },
-                child: const Text('Save expense'),
-              )
-            ],
+                  child: const Text('Save expense'),
+                )
+              ],
+            ),
           ),
         ],
       ),
