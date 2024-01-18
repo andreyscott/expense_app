@@ -2,7 +2,9 @@ import 'package:expense_app/expense.dart';
 import 'package:flutter/material.dart';
 
 class NewExpense extends StatefulWidget {
-  const NewExpense({Key? key}) : super(key: key);
+  const NewExpense({super.key, required this.onAddExpense});
+
+  final void Function(Expense expense) onAddExpense;
 
   @override
   State<NewExpense> createState() {
@@ -32,6 +34,36 @@ class _NewExpenseState extends State<NewExpense> {
     });
   }
 
+  void _submitExpenseDate() {
+    final enteredAmount = double.tryParse(_amountController.text);
+    final amountIsInvalid = enteredAmount == null || enteredAmount <= 0;
+    if (_titleController.text.trim().isEmpty ||
+        amountIsInvalid ||
+        _selectedDate == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                title: const Text('Invalid input'),
+                content: const Text('Please enter a valid title and amount'),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(ctx).pop();
+                      },
+                      child: const Text('Okay'))
+                ],
+              ));
+      return;
+    }
+
+    widget.onAddExpense(Expense(
+        title: _titleController.text,
+        amount: enteredAmount,
+        date: _selectedDate!,
+        category: _selectedCategory));
+    Navigator.pop(context);
+  }
+
   @override
   void dispose() {
     _amountController.dispose();
@@ -42,7 +74,7 @@ class _NewExpenseState extends State<NewExpense> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(17),
+      padding: const EdgeInsets.fromLTRB(16, 50, 16, 16),
       child: Column(
         children: [
           TextField(
@@ -112,8 +144,7 @@ class _NewExpenseState extends State<NewExpense> {
                     child: const Text('Cancel')),
                 ElevatedButton(
                   onPressed: () {
-                    print(_titleController.text);
-                    print(_amountController.text);
+                    _submitExpenseDate();
                   },
                   child: const Text('Save expense'),
                 )
