@@ -75,7 +75,6 @@ class _ExpensesState extends State<Expenses> {
         onRemoveExpense: _removeExpense,
       );
     }
-
     return Scaffold(
       appBar: AppBar(
           backgroundColor: const Color.fromARGB(255, 155, 39, 178),
