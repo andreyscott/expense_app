@@ -29,6 +29,7 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseOverlay() {
     showModalBottomSheet(
+      useSafeArea: true,
       isScrollControlled: true,
       context: context,
       builder: (ctx) => NewExpense(
@@ -88,7 +89,7 @@ class _ExpensesState extends State<Expenses> {
           const SizedBox(
             height: 15,
           ),
-          const Text('the Chart Text'),
+          // const Text('the Chart Text'),
           const SizedBox(height: 24),
           Chart(expenses: _registeredExpenses),
           Expanded(child: mainContent)
