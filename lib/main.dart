@@ -49,7 +49,7 @@ void main() {
         ),
         textTheme: ThemeData().textTheme.copyWith(
               titleLarge: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
                 color: kColorScheme.onSecondaryContainer,
                 fontSize: 16,
               ),
